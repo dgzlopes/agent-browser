@@ -1,8 +1,15 @@
 # agent-browser
 
-## 0.27.1
+## 0.27.2
 
 <!-- release:start -->
+### Bug Fixes
+
+- Fixed the native **Cloudflare Browser Rendering provider** sending `keep_alive` as a JSON body field instead of a query parameter on session create — Cloudflare now rejects the body field with a 400 `Unrecognized key: keep_alive`, which broke every Cloudflare-backed session before a browser could even launch
+<!-- release:end -->
+
+## 0.27.1
+
 ### Improvements
 
 - Improved **`vitals` command** output formatting for better readability (#1404)
@@ -10,7 +17,6 @@
 ### Documentation
 
 - Surfaced agent-browser feature coverage in documentation (#1403)
-<!-- release:end -->
 
 ## 0.27.0
 

@@ -797,13 +797,14 @@ mod cloudflare {
             .and_then(|v| v.parse().ok())
             .unwrap_or(600_000);
 
-        let url = format!("{}/devtools/browser", api_base(&account));
+        // keep_alive is a QUERY param on this endpoint, not a JSON body field — sending it
+        // in the body gets rejected with 400 "Unrecognized key: keep_alive" once Cloudflare
+        // validates body keys strictly.
+        let url = format!("{}/devtools/browser?keep_alive={}", api_base(&account), keep_alive);
         let client = reqwest::Client::new();
         let response = client
             .post(&url)
             .header("Authorization", format!("Bearer {}", token))
-            .header("Content-Type", "application/json")
-            .json(&json!({ "keep_alive": keep_alive }))
             .send()
             .await
             .map_err(|e| format!("Cloudflare request failed: {}", e))?;
